@@ -1,7 +1,7 @@
 {
     "name": "thomasgriffin/tgm-updater",
 	"description": "Help automate updates your WordPress plugin outside of the WP.org repo",
-    "type": "library",
+    "type": "wordpress-plugin",
 	"keywords": ["wordpress", "plugin", "update"],
 	"homepage": "https://github.com/thomasgriffin/TGM-Updater",
 	"license": "GPL-2.0+",
