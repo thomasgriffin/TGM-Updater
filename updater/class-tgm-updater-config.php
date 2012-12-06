@@ -17,7 +17,7 @@ class TGM_Updater_Config implements ArrayAccess {
      *
      * @var array
      */
-    private $properties;
+    protected $properties;
 
     /**
      * Constructor. Sets config args into class property.
