@@ -17,7 +17,7 @@ class TGM_Updater_Config implements ArrayAccess {
      *
      * @var array
      */
-    protected $properties;
+    protected $container;
 
     /**
      * Constructor. Sets config args into class property.
@@ -29,8 +29,8 @@ class TGM_Updater_Config implements ArrayAccess {
     public function __construct( array $args = array() ) {
 
         // Set class property to config args
-        $this->properties = $args;
-
+        $this->container = $args;
+		$this->sanitize_args();
     }
 
     /**
@@ -41,9 +41,9 @@ class TGM_Updater_Config implements ArrayAccess {
     public function offsetSet( $offset, $value ) {
 
         if ( is_null( $offset ) )
-            $this->properties[] = $value;
+            $this->container[] = $value;
         else
-            $this->properties[$offset] = $value;
+            $this->container[$offset] = $value;
 
     }
 
@@ -54,7 +54,7 @@ class TGM_Updater_Config implements ArrayAccess {
      */
     public function offsetUnset( $offset ) {
 
-        unset( $this->properties[$offset] );
+        unset( $this->container[$offset] );
 
     }
 
@@ -67,7 +67,7 @@ class TGM_Updater_Config implements ArrayAccess {
      */
     public function offsetExists( $offset ) {
 
-        return isset( $this->properties[$offset] );
+        return isset( $this->container[$offset] );
 
     }
 
@@ -80,7 +80,7 @@ class TGM_Updater_Config implements ArrayAccess {
      */
     public function offsetGet( $offset ) {
 
-        return isset( $this->properties[$offset] ) ? $this->properties[$offset] : null;
+        return isset( $this->container[$offset] ) ? $this->container[$offset] : null;
 
     }
 
