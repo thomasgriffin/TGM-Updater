@@ -20,8 +20,7 @@ class TGM_Updater_Config implements ArrayAccess {
     private $properties;
 
     /**
-     * Constructor. Parses default args with new args and sets up interactions
-     * within the admin area of WordPress.
+     * Constructor. Sets config args into class property.
      *
      * @since 1.0.0
      *
