@@ -28,16 +28,8 @@ class TGM_Updater_Config implements ArrayAccess {
      */
     public function __construct( array $args = array() ) {
 
-        // Set class property with offsets and values
-        $this->properties = array(
-            'plugin_name' => $args['plugin_name'],
-            'plugin_slug' => $args['plugin_slug'],
-            'plugin_path' => $args['plugin_path'],
-            'plugin_url'  => $args['plugin_url'],
-            'version'     => $args['version'],
-            'remote_url'  => $args['remote_url'],
-            'time'        => $args['time']
-        );
+        // Set class property to config args
+        $this->properties = $args;
 
     }
 
