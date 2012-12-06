@@ -199,7 +199,7 @@ class TGM_Updater {
         // If the time since the last update is greater than the time specified in the constructor or manual is true, perform an update check
         if ( ( time() - $current_plugin->last_update ) > $this->time || $manual ) {
             // Perform the remote request to check for updates
-            $version_info = $this->perform_remote_request( 'do-plugin-update-check', array( 'plugin' => $this->plugin_slug ) );
+            $version_info = $this->perform_remote_request( 'do-plugin-update-check', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
 
             // Bail out if there are any errors
             if ( is_wp_error( $version_info ) )
@@ -252,7 +252,7 @@ class TGM_Updater {
             // MultiSite check
             if ( is_multisite() ) {
                 if ( false === ( $version_info = get_site_transient( $this->namespace . 'filter_' . $this->plugin_slug ) ) ) {
-                    $version_info = $this->perform_remote_request( 'get-plugin-info', array( 'plugin' => $this->plugin_slug ) );
+                    $version_info = $this->perform_remote_request( 'get-plugin-package', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
 
                     if ( is_wp_error( $version_info ) || isset( $version_info->key_error ) )
                         delete_site_transient( $this->namespace . 'filter_' . $this->plugin_slug );
@@ -261,7 +261,7 @@ class TGM_Updater {
                 }
             } else {
                 if ( false === ( $version_info = get_transient( $this->namespace . 'filter_' . $this->plugin_slug ) ) ) {
-                    $version_info = $this->perform_remote_request( 'get-plugin-info', array( 'plugin' => $this->plugin_slug ) );
+                    $version_info = $this->perform_remote_request( 'get-plugin-package', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
 
                     if ( is_wp_error( $version_info ) || isset( $version_info->key_error ) )
                         delete_transient( $this->namespace . 'filter_' . $this->plugin_slug );
@@ -316,16 +316,16 @@ class TGM_Updater {
 
         // Build body
         $body = wp_parse_args( $body, array(
-            'action'     => $action,
-            'wp-version' => get_bloginfo( 'version' ),
-            'referer'    => site_url()
+            'tgm-updater-action'     => $action,
+            'tgm-updater-wp-version' => get_bloginfo( 'version' ),
+            'tgm-updater-referer'    => site_url()
         ) );
         $body = http_build_query( $body, '', '&' );
 
         // Build headers
         $headers = wp_parse_args( $headers, array(
-            'Content-Type'      => 'application/x-www-form-urlencoded',
-            'Content-Length'    => strlen( $body )
+            'Content-Type'   => 'application/x-www-form-urlencoded',
+            'Content-Length' => strlen( $body )
         ) );
 
         // Setup variable for wp_remote_post
@@ -363,7 +363,7 @@ class TGM_Updater {
     protected function set_plugins_api() {
 
         // Perform the remote request to retrieve our plugin information
-        $plugin_info = $this->perform_remote_request( 'get-plugin-info', array( 'plugin' => $this->plugin_slug ) );
+        $plugin_info = $this->perform_remote_request( 'get-plugin-info', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
 
         // Create a new stdClass object and populate it with our plugin information
         $api                           = new stdClass;
