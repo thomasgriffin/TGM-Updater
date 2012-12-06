@@ -1,6 +1,8 @@
 TGM Updater
 ===========
 
+**Note: This class is a work in progress and should not be used on live sites just yet. I will announce when it is at a stable 1.0.0 release.**
+
 It's time that the private and commercial plugin world inside of WordPress get serious about automatic plugin updates. With the newly minted TGM Updater library, you now have no excuse. :-)
 
 The TGM Updater library is a modification of the automatic updater class used inside of [Soliloquy](http://soliloquywp.com/), my own (and the best) responsive WordPress slider plugin. It has been tested, refined, used and abused on over 10,000 WordPress installs. To put it short - **this class simply works.** Just follow the instructions correctly and you will be up and running with your own automatic plugin updates in no time flat!
