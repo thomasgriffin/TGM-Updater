@@ -6,7 +6,7 @@
  *
  * @author  Thomas Griffin
  * @link    https://github.com/thomasgriffin/TGM-Updater
- * @license	http://www.gnu.org/licenses/gpl-2.0.html or later
+ * @license http://www.gnu.org/licenses/gpl-2.0.html or later
  */
 class TGM_Updater {
 
