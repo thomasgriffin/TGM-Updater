@@ -198,22 +198,17 @@ class TGM_Updater {
 
         // If the time since the last update is greater than the time specified in the constructor or manual is true, perform an update check
         if ( ( time() - $current_plugin->last_update ) > $this->time || $manual ) {
-            // Perform the remote request to check for updates
-            $version_info = $this->perform_remote_request( 'do-plugin-update-check', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
+            // Perform the remote request to check for updates (returns plugin version and download package)
+            $plugin_update = $this->perform_remote_request( 'get-plugin-update', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
 
             // Bail out if there are any errors
-            if ( is_wp_error( $version_info ) )
+            if ( is_wp_error( $plugin_update ) )
                 return false;
 
             // The query should return the plugin version and a download url
-            if ( isset( $version_info->version ) && isset( $version_info->download_url ) ) {
-                if ( is_multisite() )
-                    delete_site_transient( $this->namespace . 'filter_' . $this->plugin_slug );
-                else
-                    delete_transient( $this->namespace . 'filter_' . $this->plugin_slug );
-
-                $current_plugin->new_version       = $version_info->version;
-                $current_plugin->package           = $version_info->download_url;
+            if ( isset( $plugin_update->version ) && isset( $plugin_update->download_url ) ) {
+                $current_plugin->new_version       = $plugin_update->version;
+                $current_plugin->package           = $plugin_update->download_url;
                 $current_plugin->last_update       = time();
                 $this->plugins[$this->plugin_slug] = $current_plugin;
                 $this->save_plugin_options();
@@ -237,41 +232,18 @@ class TGM_Updater {
     }
 
     /**
-     * Return the plugin basename and download package when it runs its own update checker.
-     * Responses are cached to avoid having API pings run on every page load
-     * once an update has been found.
+     * Infuse the plugin basename and download package when WordPress runs its update checker.
      *
      * @since 1.0.0
      *
-     * @param object $value The updater object for the plugin
-     * @return object $value Amended updater object with our plugin and download package
+     * @param stdClass $value The WordPress update object
+     * @return stdClass $value Amended WordPress update object with our plugin and download package
      */
     public function update_plugins_filter( $value ) {
 
         if ( isset( $this->plugins[$this->plugin_slug] ) && $this->plugin_path ) {
-            // MultiSite check
-            if ( is_multisite() ) {
-                if ( false === ( $version_info = get_site_transient( $this->namespace . 'filter_' . $this->plugin_slug ) ) ) {
-                    $version_info = $this->perform_remote_request( 'get-plugin-package', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
-
-                    if ( is_wp_error( $version_info ) || isset( $version_info->key_error ) )
-                        delete_site_transient( $this->namespace . 'filter_' . $this->plugin_slug );
-                    else
-                        set_site_transient( $this->namespace . 'filter_' . $this->plugin_slug, $version_info, $this->time - 60 );
-                }
-            } else {
-                if ( false === ( $version_info = get_transient( $this->namespace . 'filter_' . $this->plugin_slug ) ) ) {
-                    $version_info = $this->perform_remote_request( 'get-plugin-package', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
-
-                    if ( is_wp_error( $version_info ) || isset( $version_info->key_error ) )
-                        delete_transient( $this->namespace . 'filter_' . $this->plugin_slug );
-                    else
-                        set_transient( $this->namespace . 'filter_' . $this->plugin_slug, $version_info, $this->time - 60 );
-                }
-            }
-
             $value->response[$this->plugin_path]          = $this->plugins[$this->plugin_slug];
-            $value->response[$this->plugin_path]->package = isset( $version_info->download_link ) ? $version_info->download_link : '';
+            $value->response[$this->plugin_path]->package = $this->plugins[$this->plugin_slug]->package;
         }
 
         return $value;
