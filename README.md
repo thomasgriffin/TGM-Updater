@@ -17,7 +17,7 @@ The `class-tgm-updater.php` file handles the bulk of the processing work for aut
 
 ## 2. Installation ##
 
-The library is easy to install. Drop the `updater` folder into the root of your plugin. Once you have done this, you can one of the two methods below to load and instantiate the updater.
+The library is a piece of cake to install. Drop the `updater` folder into the root of your plugin and use one of the two methods below to load and instantiate the updater.
 
 ### Simple Installation ###
 
@@ -53,12 +53,14 @@ $this->updater->update_plugins();
 
 **That's it.** You've now integrated the library into your plugin.
 
+## Miscellaneous ##
+
 I am working on making a distributable version of my own remote API plugin for use - stay tuned as it will be out soon.
 
-#### TO DO List ####
+### TO DO List ###
 
 1. Create the remote API plugin that syncs with Amazon S3 for plugin updates.
 2. Create WordPress-centric unit tests (found under the `tests` branch) and merge them into the master branch.
 
-##### Credits #####
+### Credits ###
 This class was developed and is maintained by [Thomas Griffin](http://thomasgriffinmedia.com/) with a special thanks to Gary Jones.
