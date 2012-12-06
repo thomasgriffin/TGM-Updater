@@ -33,6 +33,26 @@ class TGM_Updater_Config implements ArrayAccess {
 		$this->sanitize_args();
     }
 
+	/**
+	 * Provide defaults for important arguments.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function sanitize_args() {
+
+		$defaults = array(
+            'plugin_name' => false,
+            'plugin_slug' => false,
+            'plugin_path' => false,
+            'plugin_url'  => false,
+            'version'     => false,
+            'remote_url'  => false,
+            'time'        => 43200, // 12 hours
+        );
+		$this->container = wp_parse_args( $this->container, $defaults);
+
+	}
+
     /**
      * Assign a value to the specified offset.
      *
