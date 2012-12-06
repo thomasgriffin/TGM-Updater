@@ -4,6 +4,7 @@
  *
  * @since 1.0.0
  *
+ * @package TGM Updater
  * @author  Thomas Griffin
  * @link    https://github.com/thomasgriffin/TGM-Updater
  * @license http://www.gnu.org/licenses/gpl-2.0.html
@@ -205,7 +206,7 @@ class TGM_Updater {
             if ( is_wp_error( $plugin_update ) )
                 return false;
 
-            // The query should return the plugin version and a download url
+            // The query should return the plugin version and a download URL
             if ( isset( $plugin_update->version ) && isset( $plugin_update->download_url ) ) {
                 $current_plugin->new_version       = $plugin_update->version;
                 $current_plugin->package           = $plugin_update->download_url;
