@@ -1,0 +1,33 @@
+{
+    "name": "thomasgriffin/tgm-updater",
+	"description": "Help automate updates your WordPress plugin outside of the WP.org repo",
+    "type": "library",
+	"keywords": ["wordpress", "plugin", "update"],
+	"homepage": "https://github.com/thomasgriffin/TGM-Updater",
+	"license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Thomas Griffin",
+            "email": "gary@garyjones.co.uk",
+            "role": "developer"
+        },
+        {
+            "name": "Gary Jones",
+            "email": "gary@garyjones.co.uk",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.4"
+    },
+	"require-dev": {
+		"phpunit/phpunit": "3.7.9",
+		"mockery/mockery": "*"
+	},
+    "autoload": {
+        "files": [
+			"updater/class-tgm-updater-config.php",
+			"updater/class-tgm-updater.php"
+		]
+    }
+}
