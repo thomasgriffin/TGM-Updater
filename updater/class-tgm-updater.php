@@ -192,7 +192,7 @@ class TGM_Updater {
             return false;
 
         // If plugin options don't exist, create them
-        if ( ! isset( $this->plugins[$this->plugin_slug] ) )
+        if ( empty( $this->plugins[$this->plugin_slug] ) )
             $this->set_plugin_options();
 
         $current_plugin = $this->plugins[$this->plugin_slug];
