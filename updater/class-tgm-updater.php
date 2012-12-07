@@ -149,7 +149,7 @@ class TGM_Updater {
         if ( isset( $this->plugins[$this->plugin_slug]->new_version ) ) {
             if ( ! version_compare( $this->version, $this->plugins[$this->plugin_slug]->new_version, '>=' ) ) {
                 $this->has_update = true;
-                add_filter( 'site_transient_update_plugins', array( $this, 'update_plugins_filter' ), 1000 );
+                add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'update_plugins_filter' ), 1000 );
             }
         }
 
@@ -233,19 +233,20 @@ class TGM_Updater {
     }
 
     /**
-     * Infuse the plugin basename and download package when WordPress runs its update checker.
+     * Infuse plugin update details when WordPress runs its update checker.
      *
      * @since 1.0.0
      *
      * @param stdClass $value The WordPress update object
-     * @return stdClass $value Amended WordPress update object with our plugin and download package
+     * @return stdClass $value Amended WordPress update object on success, default if checked is empty
      */
     public function update_plugins_filter( $value ) {
 
-        if ( isset( $this->plugins[$this->plugin_slug] ) && $this->plugin_path ) {
-            $value->response[$this->plugin_path]          = $this->plugins[$this->plugin_slug];
-            $value->response[$this->plugin_path]->package = $this->plugins[$this->plugin_slug]->package;
-        }
+        if ( empty( $value->checked ) )
+            return $value;
+
+        if ( isset( $this->plugins[$this->plugin_slug] ) && $this->plugin_path )
+            $value->response[$this->plugin_path] = $this->plugins[$this->plugin_slug];
 
         return $value;
 
