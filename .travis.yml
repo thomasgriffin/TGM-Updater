@@ -1,16 +1,16 @@
 language: php
 php:
-  - 5.2
-  - 5.3
-  - 5.4
+    - 5.2
+    - 5.3
+    - 5.4
 
 before_script:
- - composer selfupdate --quiet
- - composer install --dev
- - vendor/phpunit/phpunit/composer/bin/phpunit
+    - composer selfupdate --quiet
+    - composer install --dev
+    - vendor/phpunit/phpunit/composer/bin/phpunit
 
 notifications:
-  irc:
-     - "irc.freenode.org#garyj"
-     - "irc.freenode.org#thomasgriffin"
-  email: false
+    irc:
+        - "irc.freenode.org#garyj"
+        - "irc.freenode.org#thomasgriffin"
+    email: false
