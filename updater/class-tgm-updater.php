@@ -124,12 +124,8 @@ class TGM_Updater {
         foreach ( $accepted_args as $arg )
             $this->$arg = $config[$arg];
 
-        // Grab and store the plugin options
+        // Grab and store the plugin options in the plugins property
         $this->plugins = $this->get_plugin_options();
-
-        // Load interactions with WordPress
-        add_action( 'load-update-core.php', array( $this, 'force_update_check' ) );
-        add_filter( 'plugins_api', array( $this, 'plugins_api' ), 5, 3 );
 
     }
 
@@ -145,10 +141,17 @@ class TGM_Updater {
         if ( ! current_user_can( 'update_plugins' ) )
             return;
 
+        // Force update checks when a user visits the Updates page
+        add_action( 'load-update-core.php', array( $this, 'force_update_check' ) );
+
+        // Attempt to run an update check if it is time
         $this->check_periodic_updates();
+
+        // If the new version is greater than the current, inject our update data into WordPress
         if ( isset( $this->plugins[$this->plugin_slug]->new_version ) ) {
             if ( ! version_compare( $this->version, $this->plugins[$this->plugin_slug]->new_version, '>=' ) ) {
                 $this->has_update = true;
+                add_filter( 'plugins_api', array( $this, 'plugins_api' ), 5, 3 );
                 add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'update_plugins_filter' ), 1000 );
             }
         }
