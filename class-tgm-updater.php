@@ -6,6 +6,19 @@
  *
  * @package TGM Updater
  * @author  Thomas Griffin
+ *
+ * TGM Updater is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * any later version.
+ *
+ * TGM Updater is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with TGM Updater. If not, see <http://www.gnu.org/licenses/>.
  */
 class TGM_Updater {
 
@@ -140,14 +153,14 @@ class TGM_Updater {
             return $value;
         }
 
-		// Run update check by pinging the external API. If it fails, return the default update object.
-		if ( ! $this->update ) {
-	        $this->update = $this->perform_remote_request( 'get-plugin-update', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
-	        if ( ! $this->update || ! empty( $this->update->error ) ) {
-		        $this->update = false;
-	            return $value;
-	        }
-		}
+        // Run update check by pinging the external API. If it fails, return the default update object.
+        if ( ! $this->update ) {
+            $this->update = $this->perform_remote_request( 'get-plugin-update', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
+            if ( ! $this->update || ! empty( $this->update->error ) ) {
+                $this->update = false;
+                return $value;
+            }
+        }
 
         // Infuse the update object with our data if the version from the remote API is newer.
         if ( isset( $this->update->new_version ) && version_compare( $this->version, $this->update->new_version, '<' ) ) {
@@ -216,12 +229,12 @@ class TGM_Updater {
 
         // Perform the remote request to retrieve our plugin information. If it fails, return the default object.
         if ( ! $this->info ) {
-	        $this->info = $this->perform_remote_request( 'get-plugin-info', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
-	        if ( ! $this->info || ! empty( $this->info->error ) ) {
-		        $this->info = false;
-	            return $default_api;
-	        }
-	    }
+            $this->info = $this->perform_remote_request( 'get-plugin-info', array( 'tgm-updater-plugin' => $this->plugin_slug ) );
+            if ( ! $this->info || ! empty( $this->info->error ) ) {
+                $this->info = false;
+                return $default_api;
+            }
+        }
 
         // Create a new stdClass object and populate it with our plugin information.
         $api                        = new stdClass;

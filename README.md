@@ -50,5 +50,11 @@ function tgm_updater_plugin_load() {
 
 **That's it.** You've now integrated the updater class into your plugin.
 
+### License ###
+The TGM Updater class is released under the GPL v2 license.
+
+### Issues ###
+Got bugs? Make sure to [report them as an issue](https://github.com/thomasgriffin/TGM-Updater/issues) so they can be squashed.
+
 ### Credits ###
 This class was developed and is maintained by [Thomas Griffin](https://thomasgriffin.io).
