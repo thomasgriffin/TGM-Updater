@@ -123,7 +123,7 @@ class TGM_Updater {
             'key'
         );
         foreach ( $accepted_args as $arg ) {
-            $this->$arg = $config[$arg];
+            $this->$arg[] = $config[$arg];
         }
 
         // If the user cannot update plugins, stop processing here.
